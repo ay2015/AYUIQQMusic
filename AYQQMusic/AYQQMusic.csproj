@@ -1,0 +1,709 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD3FF782-AB5E-4780-A7DC-A6B2D9F593FC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AYQQMusic</RootNamespace>
+    <AssemblyName>AYQQMusic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Contents\Icons\app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="Ay.Framework.WPF">
+      <HintPath>..\lib\Ay.Framework.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp">
+      <HintPath>..\lib\cefsim\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Wpf">
+      <HintPath>..\lib\cefsim\CefSharp.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Audio\ApiManager.cs" />
+    <Compile Include="Audio\AspectRatio.cs" />
+    <Compile Include="Audio\AudioDevice.cs" />
+    <Compile Include="Audio\AudioEqualizer.cs" />
+    <Compile Include="Audio\AudioOutput.cs" />
+    <Compile Include="Audio\ChromaType.cs" />
+    <Compile Include="Audio\EndBehavior.cs" />
+    <Compile Include="Audio\Exceptions.cs" />
+    <Compile Include="Audio\Extension.cs" />
+    <Compile Include="Audio\HandleManager.cs" />
+    <Compile Include="Audio\InteropHelper.cs" />
+    <Compile Include="Audio\Interop\LibVlc.Core.cs" />
+    <Compile Include="Audio\Interop\LibVlc.Media.cs" />
+    <Compile Include="Audio\Interop\LibVlc.MediaPlayer.Audio.cs" />
+    <Compile Include="Audio\Interop\LibVlc.MediaPlayer.Audio.Equalizer.cs" />
+    <Compile Include="Audio\Interop\LibVlc.MediaPlayer.Audio.Output.cs" />
+    <Compile Include="Audio\Interop\LibVlc.MediaPlayer.cs" />
+    <Compile Include="Audio\Interop\LibVlc.MediaPlayer.Video.cs" />
+    <Compile Include="Audio\Interop\LibVlc.Time.cs" />
+    <Compile Include="Audio\Interop\LibVlc.VLM.cs" />
+    <Compile Include="Audio\Interop\LibVlcFunction.cs" />
+    <Compile Include="Audio\Interop\LibVlcFunctionAttribute.cs" />
+    <Compile Include="Audio\Interop\LibVlcVersion.cs" />
+    <Compile Include="Audio\IVlcObject.cs" />
+    <Compile Include="Audio\LibVlcManager.cs" />
+    <Compile Include="Audio\MediaTrack.cs" />
+    <Compile Include="Audio\ModuleDescription.cs" />
+    <Compile Include="Audio\PresetAudioEqualizerType.cs" />
+    <Compile Include="Audio\Size.cs" />
+    <Compile Include="Audio\SnapshotContext.cs" />
+    <Compile Include="Audio\SnapshotFormat.cs" />
+    <Compile Include="Audio\ThreadSeparatedControlHost.cs" />
+    <Compile Include="Audio\ThreadSeparatedImage.cs" />
+    <Compile Include="Audio\TrackDescription.cs" />
+    <Compile Include="Audio\VideoDisplayContext.cs" />
+    <Compile Include="Audio\VisualTargetPresentationSource.cs" />
+    <Compile Include="Audio\Vlc.cs" />
+    <Compile Include="Audio\Vlc.Vlm.cs" />
+    <Compile Include="Audio\VlcError.cs" />
+    <Compile Include="Audio\VlcEventManager.cs" />
+    <Compile Include="Audio\VlcMedia.cs" />
+    <Compile Include="Audio\VlcMediaPlayer.cs" />
+    <Compile Include="Audio\VlcPlayer.cs" />
+    <Compile Include="Audio\VlcPlayer.DependencyProperties.cs" />
+    <Compile Include="Audio\VlcPlayer.Events.cs" />
+    <Compile Include="Audio\VlcPlayer.Helper.cs" />
+    <Compile Include="Audio\VlcPlayer.Properties.cs" />
+    <Compile Include="Audio\VlcSettingsAttribute.cs" />
+    <Compile Include="Audio\Win32Api.cs" />
+    <Compile Include="Controls\UcAlbumLrc.xaml.cs">
+      <DependentUpon>UcAlbumLrc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WebPageViewer.xaml.cs">
+      <DependentUpon>WebPageViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AyPlayQueueDropHandler.cs" />
+    <Compile Include="Models\Converter\PlayToolTipConverter.cs" />
+    <Compile Include="Models\Utility\ExtendUtils.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Exceptions\InvalidFrameException.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Exceptions\InvalidPaddingException.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Exceptions\InvalidStructureException.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Exceptions\InvalidTagException.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Exceptions\TagNotFoundException.cs" />
+    <Compile Include="Models\ID3\Id3Lib\FrameDescription.cs" />
+    <Compile Include="Models\ID3\Id3Lib\FrameFactory.cs" />
+    <Compile Include="Models\ID3\Id3Lib\FrameHelper.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameAttribute.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameBase.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameBinary.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameFullText.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FramePicture.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FramePlayCounter.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FramePopularimeter.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameText.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameTextUserDef.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameUniqueIdentifier.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameUnkown.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameUrl.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\FrameUrlUserDef.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Frames\IFrameDescription.cs" />
+    <Compile Include="Models\ID3\Id3Lib\ID3v1.cs" />
+    <Compile Include="Models\ID3\Id3Lib\TagExtendedHeader.cs" />
+    <Compile Include="Models\ID3\Id3Lib\TagHandler.cs" />
+    <Compile Include="Models\ID3\Id3Lib\TagHeader.cs" />
+    <Compile Include="Models\ID3\Id3Lib\TagManager.cs" />
+    <Compile Include="Models\ID3\Id3Lib\TagModel.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Utils\Memory.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Utils\Swap.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Utils\Sync.cs" />
+    <Compile Include="Models\ID3\Id3Lib\Utils\TextBuilder.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\Audio.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioBuffer.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioFile.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioFrame.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioFrameFactory.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioFrameHeader.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioFrameVbriHeader.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Audio\AudioFrameXingHeader.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Exceptions\InvalidAudioFrameException.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Exceptions\InvalidVbrSizeException.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\MP3\IAudio.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\MP3\MP3File.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\MP3\MP3FileData.cs" />
+    <Compile Include="Models\ID3\Mp3Lib\Utils\FileMover.cs" />
+    <Compile Include="Models\Mp3SerializeHelper.cs" />
+    <Compile Include="Models\MusicMainWindowModel.cs" />
+    <Page Include="Contents\Styles\QQMusic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UcAlbumLrc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WebPageViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Properties\DesignTimeResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\PlayListItemModelSerial.cs" />
+    <Compile Include="Models\PlayListItemModel.cs" />
+    <Compile Include="Models\SetPropertyAction.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="Models\ID3\Id3Lib\Frames\FrameTypesDiagram.cd" />
+    <None Include="Models\ID3\Mp3Lib\Audio\AudioDiagram.cd" />
+    <None Include="Models\ID3\Mp3Lib\MP3\Mp3Diagram.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Contents\Config\application.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Contents\Config\Config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Icons\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\demoHeader.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\lvzuan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\other\00653[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00654[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00655[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00656[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00657[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00658[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00659[30x30x1BPP].png" />
+    <Resource Include="Contents\Images\other\00660[30x30x1BPP].png" />
+    <Resource Include="Contents\Images\other\00661[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00662[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00663[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00664[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00665[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00666[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00667[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00668[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00669[30x30x8BPP].png" />
+    <Resource Include="Contents\Images\other\00670[30x30x8BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\other\00711[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00712[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00713[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00714[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00715[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00716[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00717[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00718[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00719[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00739[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00740[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00830[19x15x8BPP].png" />
+    <Resource Include="Contents\Images\other\00831[19x15x8BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\leftmenu\00731[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00732[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00733[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00734[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00735[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00736[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00737[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00738[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00739[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00741[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00742[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00748[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00750[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00752[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00754[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00766[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00768[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00770[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00771[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00772[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\00773[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01008[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01010[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01029[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01033[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01034[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01035[18x18x8BPP].png" />
+    <Resource Include="Contents\Images\leftmenu\01036[18x18x8BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\accer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\leftmenu\n1.png" />
+    <Resource Include="Contents\Images\leftmenu\n10.png" />
+    <Resource Include="Contents\Images\leftmenu\n11.png" />
+    <Resource Include="Contents\Images\leftmenu\n2.png" />
+    <Resource Include="Contents\Images\leftmenu\n3.png" />
+    <Resource Include="Contents\Images\leftmenu\n4.png" />
+    <Resource Include="Contents\Images\leftmenu\n5.png" />
+    <Resource Include="Contents\Images\leftmenu\n5555.png" />
+    <Resource Include="Contents\Images\leftmenu\n6.png" />
+    <Resource Include="Contents\Images\leftmenu\n7.png" />
+    <Resource Include="Contents\Images\leftmenu\n8.png" />
+    <Resource Include="Contents\Images\leftmenu\n9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\topmenu\l1.png" />
+    <Resource Include="Contents\Images\topmenu\l2.png" />
+    <Resource Include="Contents\Images\topmenu\l3.png" />
+    <Resource Include="Contents\Images\topmenu\r1.png" />
+    <Resource Include="Contents\Images\topmenu\r2.png" />
+    <Resource Include="Contents\Images\topmenu\r3.png" />
+    <Resource Include="Contents\Images\topmenu\re1.png" />
+    <Resource Include="Contents\Images\topmenu\re2.png" />
+    <Resource Include="Contents\Images\topmenu\re3.png" />
+    <Resource Include="Contents\Images\topmenu\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\topmenu\nextmusic.png" />
+    <Resource Include="Contents\Images\topmenu\PauseMusic.png" />
+    <Resource Include="Contents\Images\topmenu\playmusic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\topmenu\nextmusic2.png" />
+    <Resource Include="Contents\Images\topmenu\PauseMusic2.png" />
+    <Resource Include="Contents\Images\topmenu\playmusic2.png" />
+    <Resource Include="Contents\Images\topmenu\premusic.png" />
+    <Resource Include="Contents\Images\topmenu\premusic2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\topmenu\album1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\topmenu\top.png" />
+    <Resource Include="Contents\Images\topmenu\closealbum.png" />
+    <Resource Include="Contents\Images\topmenu\defaultAlbum.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\biao1.png" />
+    <Resource Include="Contents\Images\biao2.png" />
+    <Resource Include="Contents\Images\biao3.png" />
+    <Resource Include="Contents\Images\biao4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\other\00556[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00557[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00558[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00559[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00560[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00561[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00562[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00563[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00564[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00565[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00566[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00567[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00570[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00571[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00573[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00574[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00575[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\other\00582[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00583[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00585[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\other\00586[40x18x8BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\yinxiao1.png" />
+    <Resource Include="Contents\Images\yinxiao2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\resize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\other\00597[8x8x8BPP].png" />
+    <Resource Include="Contents\Images\other\00602[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00603[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00604[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00608[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00609[24x24x8BPP].png" />
+    <Resource Include="Contents\Images\other\00610[24x24x8BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\xin2.png" />
+    <Resource Include="Contents\Images\rightmenu\xin1.png" />
+    <Resource Include="Contents\Images\rightmenu\xin3.png" />
+    <Resource Include="Contents\Images\rightmenu\xin4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\xia1.png" />
+    <Resource Include="Contents\Images\xia2.png" />
+    <Resource Include="Contents\Images\xia3.png" />
+    <Resource Include="Contents\Images\xiafei1.png" />
+    <Resource Include="Contents\Images\xiafei2.png" />
+    <Resource Include="Contents\Images\xiafei3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\c2.png" />
+    <Resource Include="Contents\Images\c3.png" />
+    <Resource Include="Contents\Images\cc1.png" />
+    <Resource Include="Contents\Images\cc2.png" />
+    <Resource Include="Contents\Images\cc3.png" />
+    <Resource Include="Contents\Images\c1.png" />
+    <Resource Include="Contents\Images\more1.png" />
+    <Resource Include="Contents\Images\more2.png" />
+    <Resource Include="Contents\Images\more3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\yin1.png" />
+    <Resource Include="Contents\Images\yin2.png" />
+    <Resource Include="Contents\Images\yin3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\xun1.png" />
+    <Resource Include="Contents\Images\xun2.png" />
+    <Resource Include="Contents\Images\xun3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\list1.png" />
+    <Resource Include="Contents\Images\list2.png" />
+    <Resource Include="Contents\Images\list3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\Add1.png" />
+    <Resource Include="Contents\Images\Add2.png" />
+    <Resource Include="Contents\Images\shangla1.png" />
+    <Resource Include="Contents\Images\shangla2.png" />
+    <Resource Include="Contents\Images\xiala1.png" />
+    <Resource Include="Contents\Images\xiala2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\yinxiaopop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\5.1yindao.png" />
+    <Resource Include="Contents\Images\rightmenu\currentselect.png" />
+    <Resource Include="Contents\Images\rightmenu\dujia.png" />
+    <Resource Include="Contents\Images\rightmenu\fufei.png" />
+    <Resource Include="Contents\Images\rightmenu\hd.png" />
+    <Resource Include="Contents\Images\rightmenu\mv.png" />
+    <Resource Include="Contents\Images\rightmenu\newmusic.png" />
+    <Resource Include="Contents\Images\rightmenu\shiting.png" />
+    <Resource Include="Contents\Images\rightmenu\sq.png" />
+    <Resource Include="Contents\Images\rightmenu\xianmian.png" />
+    <Resource Include="Contents\Images\rightmenu\yigou.png" />
+    <Resource Include="Contents\Images\rightmenu\yuanchangmusic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\00558[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\00559[40x18x8BPP].png" />
+    <Resource Include="Contents\Images\00560[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00561[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00564[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00565[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00566[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00567[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00570[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00571[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00573[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00574[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00575[40x18x4BPP].png" />
+    <Resource Include="Contents\Images\00576[40x18x4BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\xunhuanyin1.png" />
+    <Resource Include="Contents\Images\rightmenu\xunhuanyin2.png" />
+    <Resource Include="Contents\Images\rightmenu\xunhuanyin3.png" />
+    <Resource Include="Contents\Images\rightmenu\xunhuanyin4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\5.1moren1.png" />
+    <Resource Include="Contents\Images\rightmenu\5.1moren2.png" />
+    <Resource Include="Contents\Images\rightmenu\5.1moren3.png" />
+    <Resource Include="Contents\Images\rightmenu\5.1moren4.png" />
+    <Resource Include="Contents\Images\rightmenu\hqmoren1.png" />
+    <Resource Include="Contents\Images\rightmenu\hqmoren2.png" />
+    <Resource Include="Contents\Images\rightmenu\hqmoren3.png" />
+    <Resource Include="Contents\Images\rightmenu\hqmoren4.png" />
+    <Resource Include="Contents\Images\rightmenu\lv5.1.png" />
+    <Resource Include="Contents\Images\rightmenu\sqmoren1.png" />
+    <Resource Include="Contents\Images\rightmenu\sqmoren2.png" />
+    <Resource Include="Contents\Images\rightmenu\sqmoren3.png" />
+    <Resource Include="Contents\Images\rightmenu\sqmoren4.png" />
+    <Resource Include="Contents\Images\rightmenu\xianmianred.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\yinxiaopop2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\diyin1.png" />
+    <Resource Include="Contents\Images\diyin2.png" />
+    <Resource Include="Contents\Images\huanrao1.png" />
+    <Resource Include="Contents\Images\huanrao2.png" />
+    <Resource Include="Contents\Images\rensheng1.png" />
+    <Resource Include="Contents\Images\rensheng2.png" />
+    <Resource Include="Contents\Images\xianchang1.png" />
+    <Resource Include="Contents\Images\xianchang2.png" />
+    <Resource Include="Contents\Images\zidingyi1.png" />
+    <Resource Include="Contents\Images\zidingyi2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\xunhuanyin0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\geci\00491[64x20x8BPP].png" />
+    <Resource Include="Contents\Images\geci\00492[64x20x8BPP].png" />
+    <Resource Include="Contents\Images\geci\00493[64x20x8BPP].png" />
+    <Resource Include="Contents\Images\playlist\down2.png" />
+    <Resource Include="Contents\Images\playlist\down1.png" />
+    <Resource Include="Contents\Images\playlist\down3.png" />
+    <Resource Include="Contents\Images\playlist\xing2.png" />
+    <Resource Include="Contents\Images\playlist\xing1.png" />
+    <Resource Include="Contents\Images\playlist\xing3.png" />
+    <Resource Include="Contents\Images\playlist\more2.png" />
+    <Resource Include="Contents\Images\playlist\more1.png" />
+    <Resource Include="Contents\Images\playlist\more3.png" />
+    <Resource Include="Contents\Images\playlist\pause1.png" />
+    <Resource Include="Contents\Images\playlist\pause2.png" />
+    <Resource Include="Contents\Images\playlist\pause3.png" />
+    <Resource Include="Contents\Images\playlist\play1.png" />
+    <Resource Include="Contents\Images\playlist\play2.png" />
+    <Resource Include="Contents\Images\playlist\play3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\rightmenu\gengduopop.png" />
+    <Resource Include="Contents\Images\rightmenu\yinliangpop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\bendimusic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\yinfu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\poplist2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1064.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1066.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1069.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\xianmian.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\lvz.png" />
+    <Resource Include="Contents\Images\playlist\lzno.png" />
+    <Resource Include="Contents\Images\playlist\51tip.png" />
+    <Resource Include="Contents\Images\playlist\yigou.png" />
+    <Resource Include="Contents\Images\playlist\fufei.png" />
+    <Resource Include="Contents\Images\playlist\hq.png" />
+    <Resource Include="Contents\Images\playlist\dujia.png" />
+    <Resource Include="Contents\Images\playlist\shiting.png" />
+    <Resource Include="Contents\Images\playlist\mvtip.png" />
+    <Resource Include="Contents\Images\playlist\yuanchang.png" />
+    <Resource Include="Contents\Images\playlist\sq.png" />
+    <Resource Include="Contents\Images\playlist\xianmianlv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\ayuiadv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\tianjiadao.png" />
+    <Resource Include="Contents\Images\playlist\shanchu.png" />
+    <Resource Include="Contents\Images\playlist\menudown.png" />
+    <Resource Include="Contents\Images\playlist\menulove.png" />
+    <Resource Include="Contents\Images\playlist\00837[15x15x8BPP].png" />
+    <Resource Include="Contents\Images\playlist\nextplay.png" />
+    <Resource Include="Contents\Images\playlist\00848[12x12x8BPP].png" />
+    <Resource Include="Contents\Images\playlist\play.png" />
+    <Resource Include="Contents\Images\playlist\00852[12x12x4BPP].png" />
+    <Resource Include="Contents\Images\playlist\00853[15x15x8BPP].png" />
+    <Resource Include="Contents\Images\playlist\00854[15x15x8BPP].png" />
+    <Resource Include="Contents\Images\playlist\share.png" />
+    <Resource Include="Contents\Images\playlist\00857[15x15x8BPP].png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\menusecond.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Contents\bg\bg\a景观\浩瀚星宇.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Contents\bg\thumb\a景观\浩瀚星宇.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\playlist\icon_wave.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\Album\defaultAlbum.png" />
+    <Resource Include="Contents\Images\Album\defaultSmallPng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\toolbar\next.png" />
+    <Resource Include="Contents\Images\toolbar\pause.png" />
+    <Resource Include="Contents\Images\toolbar\play.png" />
+    <Resource Include="Contents\Images\toolbar\last.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Contents\Images\Album\down1.png" />
+    <Resource Include="Contents\Images\Album\down2.png" />
+    <Resource Include="Contents\Images\Album\down3.png" />
+    <Resource Include="Contents\Images\Album\fengxiang1.png" />
+    <Resource Include="Contents\Images\Album\fengxiang3.png" />
+    <Resource Include="Contents\Images\Album\fengxiang4.png" />
+    <Resource Include="Contents\Images\Album\fenxiang2.png" />
+    <Resource Include="Contents\Images\Album\max1.png" />
+    <Resource Include="Contents\Images\Album\max2.png" />
+    <Resource Include="Contents\Images\Album\max3.png" />
+    <Resource Include="Contents\Images\Album\min1.png" />
+    <Resource Include="Contents\Images\Album\min2.png" />
+    <Resource Include="Contents\Images\Album\min3.png" />
+    <Resource Include="Contents\Images\Album\Ming1.png" />
+    <Resource Include="Contents\Images\Album\Ming2.png" />
+    <Resource Include="Contents\Images\Album\normal1.png" />
+    <Resource Include="Contents\Images\Album\normal2.png" />
+    <Resource Include="Contents\Images\Album\normal3.png" />
+    <Resource Include="Contents\Images\Album\ping1.png" />
+    <Resource Include="Contents\Images\Album\ping2.png" />
+    <Resource Include="Contents\Images\Album\ping3.png" />
+    <Resource Include="Contents\Images\Album\ping4.png" />
+    <Resource Include="Contents\Images\Album\shi1.png" />
+    <Resource Include="Contents\Images\Album\shi2.png" />
+    <Resource Include="Contents\Images\Album\shi3.png" />
+    <Resource Include="Contents\Images\Album\shi4.png" />
+    <Resource Include="Contents\Images\Album\unMing1.png" />
+    <Resource Include="Contents\Images\Album\unMing2.png" />
+    <Resource Include="Contents\Images\Album\unMing3.png" />
+    <Resource Include="Contents\Images\Album\unMing4.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

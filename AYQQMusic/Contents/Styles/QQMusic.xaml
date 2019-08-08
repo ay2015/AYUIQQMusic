@@ -1,0 +1,1277 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:control="http://www.ayjs.net/controls"
+                   
+                    	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:vlc="clr-namespace:Meta.Vlc.Wpf"
+                    xmlns:local="clr-namespace:AYQQMusic">
+
+    <Style TargetType="{x:Type vlc:VlcPlayer}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="StretchDirection" Value="Both" />
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type vlc:VlcPlayer}">
+                    <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+                        <vlc:ThreadSeparatedImage x:Name="Image"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ItemsPanelTemplate x:Key="AyWrapItemsPanelTemplate">
+        <WrapPanel Orientation="Horizontal" >
+        </WrapPanel>
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="AyStackOrientionItemsPanelTemplate">
+        <StackPanel Orientation="Horizontal" >
+        </StackPanel>
+    </ItemsPanelTemplate>
+    <DataTemplate x:Key="MusicDragAdorner">
+        <!--<Popup StaysOpen="True" IsOpen="True" Placement="MousePoint">-->
+        <Image Source="pack://application:,,,/AYQQMusic;component/Contents/Images/yinfu.png" Width="20" HorizontalAlignment="Center"/>
+        <!--</Popup>-->
+    </DataTemplate>
+    <DataTemplate x:Key="MusicDragAdornerNull">
+        <Grid></Grid>
+    </DataTemplate>
+
+    <Style x:Key="AyOverrideScrollViewer" TargetType="{x:Type ScrollViewer}" BasedOn="{x:Null}">
+        <Style.Resources>
+
+            <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Focusable" Value="false"/>
+                <Setter Property="IsTabStop" Value="false"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}" BasedOn="{x:Null}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="HoverOn">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.3"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="HoverOff">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.15"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="PressedOn">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PressedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="PressedOff">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PressedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.15"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <Grid Margin="0,0,0,0" x:Name="Grid">
+                                <Rectangle HorizontalAlignment="Stretch" x:Name="HoverRectangle" VerticalAlignment="Stretch" Width="Auto" Height="Auto" RadiusX="3" RadiusY="4" Stroke="{x:Null}"  Opacity="0.15" MinHeight="10">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="#FFFFFF" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle HorizontalAlignment="Stretch" x:Name="PressedRectangle" VerticalAlignment="Stretch" Width="Auto" Height="Auto" RadiusX="3" RadiusY="4" Stroke="{x:Null}"  Opacity="0.15" MinHeight="10">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="#FFFFFF" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True" />
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource HoverOff}" x:Name="HoverOff_BeginStoryboard"/>
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource HoverOn}"/>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False" >
+                                    <Setter Property="Opacity" TargetName="Grid" Value="0.5"/>
+                                </Trigger>
+                                <Trigger Property="IsDragging" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource PressedOff}" x:Name="PressedOff_BeginStoryboard"/>
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource PressedOn}" x:Name="PressedOn_BeginStoryboard"/>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}" >
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="HoverOn">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.3"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="HoverOff">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.15"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="PressedOn">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PressedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.1"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="PressedOff">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="PressedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.15"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <Grid Margin="0,0,0,0" x:Name="Grid">
+                                <Rectangle HorizontalAlignment="Stretch" x:Name="HoverRectangle" VerticalAlignment="Stretch" Width="Auto"  RadiusX="3" RadiusY="4" Stroke="{x:Null}" Height="{TemplateBinding Height}"   Opacity="0.15" MinWidth="10">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="#FFFFFF" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle HorizontalAlignment="Stretch" x:Name="PressedRectangle" VerticalAlignment="Stretch" Width="Auto" RadiusX="3" RadiusY="4" Stroke="{x:Null}" Height="{TemplateBinding Height}"   Opacity="0.15" MinWidth="10">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="#FFFFFF" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True" />
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource HoverOff}" x:Name="HoverOff_BeginStoryboard"/>
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource HoverOn}"/>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False" >
+                                    <Setter Property="Opacity" TargetName="Grid" Value="0.5"/>
+                                </Trigger>
+                                <Trigger Property="IsDragging" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource PressedOff}" x:Name="PressedOff_BeginStoryboard"/>
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource PressedOn}" x:Name="PressedOn_BeginStoryboard"/>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style x:Key="QQ.AyScrollBarStyle" TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Width" Value="7"/>
+                <Setter Property="MinWidth" Value="12"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="Bg" SnapsToDevicePixels="true" Margin="2,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MaxHeight="5" />
+                                    <RowDefinition Height="0.00001*" />
+                                    <RowDefinition MaxHeight="5" />
+                                </Grid.RowDefinitions>
+
+
+                                <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumbVertical}"/>
+                                    </Track.Thumb>
+                                </Track>
+
+                            </Grid>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Orientation" Value="Horizontal">
+                        <Setter Property="Width" Value="Auto"/>
+                        <Setter Property="MinWidth" Value="0"/>
+                        <Setter Property="Height" Value="9"/>
+                        <Setter Property="Background" Value="#F00"/>
+                        <Setter Property="MinHeight" Value="9"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                    <Grid x:Name="Bg" Cursor="Arrow">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MaxWidth="5" />
+                                            <ColumnDefinition Width="0.00001*" />
+                                            <ColumnDefinition MaxWidth="5" />
+                                        </Grid.ColumnDefinitions>
+                                        <Track x:Name="PART_Track"  IsEnabled="{TemplateBinding IsMouseOver}"  Grid.Column="1">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                            </Track.IncreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb Style="{StaticResource ScrollBarThumbHorizontal}"/>
+                                            </Track.Thumb>
+                                        </Track>
+
+
+                                    </Grid>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" Grid.RowSpan="2"/>
+                        <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Style="{DynamicResource QQ.AyScrollBarStyle}"/>
+                        <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Style="{DynamicResource QQ.AyScrollBarStyle}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate TargetType="{x:Type ListBox}" x:Key="ListBox.OverrideScrollViewerTemplate">
+        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+            <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}" Style="{StaticResource AyOverrideScrollViewer}">
+                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </ScrollViewer>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" TargetName="Bd" Value="0.5"/>
+            </Trigger>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="Ay.QQ.Playlist.Download" TargetType="{x:Type control:AySplitButton}">
+        <Style.Resources>
+            <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}">
+                <Style.Resources>
+                    <!-- TopLevelItem  菜单中的根级menuitem，且这个menuitem没有子级菜单-->
+                    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
+                        <!--<Border Name="Border" Background="#FFFFFF" BorderThickness="0">
+                            <ContentPresenter Name="HeaderHost" TextElement.Foreground="#434343" Margin="21,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"  ContentSource="Header" RecognizesAccessKey="False"/>
+                        </Border>-->
+                        <Grid Background="#FFFFFF" x:Name="Border">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="37" SharedSizeGroup="Icon"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--<Image Source="{Binding Icon}" Stretch="Uniform" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>-->
+                            <!--<control:AyIconAll x:Name="Icon" Margin="8,0,5,0" Icon="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+                            <ContentPresenter Name="Icon" Margin="1,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon"/>
+                            <ContentPresenter Name="HeaderHost" TextElement.Foreground="#000000" VerticalAlignment="Center" Grid.Column="1" ContentSource="Header" Margin="5,0,0,0" RecognizesAccessKey="True"/>
+                      
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!--选中菜单项时的高亮颜色的trigger设置-->
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#E5E5E5"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="Border" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                    <!-- MenuItem Style -->
+                    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="Height" Value="29"/>
+                        <Setter Property="MinWidth" Value="239"/>
+                        <Style.Triggers>
+
+                            <Trigger Property="Role" Value="SubmenuItem">
+                                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                </Style.Resources>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property ="Focusable" Value="False"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HasDropShadow" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContextMenu}">
+                            <Grid Margin="0">
+                                <Border Name="Border" Background="#FFFFFF" Padding="0" Width="241" BorderBrush="#D2D2D2"  BorderThickness="1" >
+                                    <StackPanel>
+                                        <Image Source="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/ayuiadv.png" HorizontalAlignment="Center"/>
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"></StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="#FF00C37D"/>
+        <Setter Property="BorderBrush" Value="#00FFFFFF"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="UltraLight" />
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="UseLayoutRounding" Value="true"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AySplitButton}">
+
+                    <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Image x:Name="bg" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/down1.png"></Image>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition   Property="IsMouseOver"   Value="True"/>
+                                <Condition   Property="ContextMenu.IsOpen"   Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source" Value="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/down2.png" TargetName="bg"/>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Source" Value="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/down3.png" TargetName="bg"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <Style x:Key="Ay.QQ.Playlist.More" TargetType="{x:Type control:AySplitButton}">
+        <Style.Resources>
+           
+            <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}">
+                <Style.Resources>
+                    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+                        <Setter Property="Height" Value="1"/>
+                        <Setter Property="Margin" Value="0,1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Separator}">
+                                    <Border BorderBrush="#DDDDDD" BorderThickness="1"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                    </Style>
+                    <!-- TopLevelItem  菜单中的根级menuitem，且这个menuitem没有子级菜单-->
+                    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
+                        <!--<Border Name="Border" Background="#FFFFFF" BorderThickness="0">
+                            <ContentPresenter Name="HeaderHost" TextElement.Foreground="#434343" Margin="21,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"  ContentSource="Header" RecognizesAccessKey="False"/>
+                        </Border>-->
+                        <Grid Background="#FFFFFF" x:Name="Border">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="37" SharedSizeGroup="Icon"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--<Image Source="{Binding Icon}" Stretch="Uniform" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>-->
+                            <!--<control:AyIconAll x:Name="Icon" Margin="8,0,5,0" Icon="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+                            <ContentPresenter Name="Icon" Margin="1,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon"/>
+                            <ContentPresenter Name="HeaderHost" TextElement.Foreground="#000000" VerticalAlignment="Center" Grid.Column="1" ContentSource="Header" Margin="5,0,0,0" RecognizesAccessKey="True"/>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!--选中菜单项时的高亮颜色的trigger设置-->
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#E5E5E5"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="Border" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
+                        <Border Name="Border" >
+                            <Grid Background="#00ffffff">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="37" SharedSizeGroup="Icon"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="22"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Name="Icon" Margin="1,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Icon"/>
+                                <ContentPresenter TextElement.Foreground="#000000" Name="HeaderHost" Grid.Column="1" ContentSource="Header" Margin="5,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="False"/>
+
+                                <Viewbox Height="15" Grid.Column="2" Margin="0,0,12,0" StretchDirection="DownOnly" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/menusecond.png" />
+                                </Viewbox>
+                                <Popup Name="Popup" Placement="Right" HorizontalOffset="0" VerticalOffset="0" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                    <Grid>
+                                        <Border Padding="0,8" Name="SubmenuBorder" Background="#FFFFFF" BorderBrush="#D2D2D2" BorderThickness="1">
+                                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                         </Border>
+                                      
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Icon" Value="{x:Null}">
+                                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#E5E5E5"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="Popup.IsOpen" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#E5E5E5"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsHighlighted" Value="true"></Condition>
+                                    <Condition Property="IsPressed" Value="true"></Condition>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Border" Property="Background" Value="#E5E5E5"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="Border" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                    <!-- MenuItem Style -->
+                    <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="Height" Value="29"/>
+                        <Setter Property="MinWidth" Value="156"/>
+                        <Style.Triggers>
+                            <!--<Trigger Property="Role" Value="TopLevelHeader">
+                                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}"/>
+                                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
+                            </Trigger>
+                            <Trigger Property="Role" Value="TopLevelItem">
+                                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}"/>
+                            </Trigger>-->
+                            <Trigger Property="Role" Value="SubmenuHeader">
+                                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}"/>
+                            </Trigger>
+                            <Trigger Property="Role" Value="SubmenuItem">
+                                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                </Style.Resources>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property ="Focusable" Value="False"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HasDropShadow" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContextMenu}">
+                            <Grid Margin="0">
+                                <Border Name="Border" Background="#FFFFFF"  MinWidth="156" BorderBrush="#D2D2D2" Padding="0,8" BorderThickness="1" >
+                                    <!--<StackPanel>-->
+                                        <!--<Image Source="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/ayuiadv.png" HorizontalAlignment="Center"/>-->
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"></StackPanel>
+                                    <!--</StackPanel>-->
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+        </Style.Resources>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="#FF00C37D"/>
+        <Setter Property="BorderBrush" Value="#00FFFFFF"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="UltraLight" />
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="UseLayoutRounding" Value="true"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AySplitButton}">
+
+                    <Grid Background="#00FFFFFF" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Image x:Name="bg" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/more1.png"></Image>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition   Property="IsMouseOver"   Value="True"/>
+                                <Condition   Property="ContextMenu.IsOpen"   Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source" Value="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/more2.png" TargetName="bg"/>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Source" Value="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/more3.png" TargetName="bg"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+    
+    <Style x:Key="Ay.QQ.ContextMenu" TargetType="{x:Type ContextMenu}">
+        <Style.Resources>
+            <!-- TopLevelItem  菜单中的根级menuitem，且这个menuitem没有子级菜单-->
+            <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
+                <Border Name="Border" Background="#D800C27B" BorderThickness="0,1,0,0" BorderBrush="#04A46B">
+                    <ContentPresenter Name="HeaderHost" Margin="21,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"  ContentSource="Header" RecognizesAccessKey="False"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <!--选中菜单项时的高亮颜色的trigger设置-->
+                    <Trigger Property="IsHighlighted" Value="true">
+                        <Setter TargetName="Border" Property="Background" Value="#FF00C27B"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <!-- MenuItem Style -->
+            <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Height" Value="39"/>
+                <Setter Property="MinWidth" Value="179"/>
+                <Style.Triggers>
+
+                    <Trigger Property="Role" Value="SubmenuItem">
+                        <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+        </Style.Resources>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property ="Focusable" Value="False"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HasDropShadow" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    <Grid Margin="0">
+                        <Border Name="Border" Background="#00FFFFFF" Padding="0"  BorderThickness="0" >
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"></StackPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Ay.QQ.PauseRadioButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+
+
+                        
+                            
+                            <Grid>
+                            <control:AyImageButton x:Name="UnChecked"  Height="40" Width="40"  RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/playmusic.png"   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/playmusic2.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/playmusic.png" Visibility="Visible"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/playmusic2.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="Checked"  Height="40" Width="40"  Visibility="Collapsed"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/PauseMusic2.png" IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/PauseMusic2.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/PauseMusic.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/PauseMusic2.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="Ay.QQProgressBar" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Background" Value="#67686A"/>
+        <Setter Property="BorderBrush" Value="#00FFFFFF"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+
+                    <Grid x:Name="TemplateRoot">
+
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"/>
+                        <Rectangle x:Name="PART_Track"/>
+                        <Grid>
+                            <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                                <Canvas x:Name="Indicator" UseLayoutRounding="true" ClipToBounds="False">
+                                    <Border x:Name="border" Height="{TemplateBinding Height}" Width="3000" Margin="0" Background="{DynamicResource  AyTextbox.Static.Border}"
+                                             HorizontalAlignment="Stretch" BorderThickness="0" RenderTransformOrigin="0.5,0.5" >
+
+                                    </Border>
+
+                                </Canvas>
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="Ay.AlbumButton" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="Background" Value="#00FFFFFF"/>
+        <Setter Property="BorderBrush" Value="#00FFFFFF"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+                    <Grid Background="#00FFFFFF">
+                        <Image x:Name="imgSkinBgPrew" Source="{TemplateBinding Icon}" Height="42" Width="42" Stretch="Fill"/>
+                        <Image x:Name="top1" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/top.png" Height="42" Width="42" Stretch="Fill"  Visibility="Collapsed" />
+                        <Image x:Name="top2" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/topmenu/closealbum.png" Height="42" Width="42" Stretch="Fill" Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="top1" Property="Visibility" Value="Collapsed"></Setter>
+                            <Setter TargetName="top2" Property="Visibility" Value="Visible"></Setter>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition   Property="IsMouseOver"   Value="True"/>
+                                <Condition   Property="IsChecked"   Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" TargetName="top1"/>
+                            <Setter TargetName="top2" Property="Visibility" Value="Collapsed"></Setter>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="Ay.QQ.Ablum.Max" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+
+                            <control:AyImageButton x:Name="UnChecked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"  Visibility="Visible"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/max1.png" IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/max3.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/max2.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/max3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="Checked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"  RenderMode="Manner" 
+                                                   Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/normal1.png"   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/normal1.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/normal2.png" Visibility="Collapsed"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/Album/normal3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.7"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    
+    <Style x:Key="Ay.QQ.BiaoZhunRadioButton" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+
+                            <control:AyImageButton x:Name="UnChecked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"  Visibility="Collapsed"
+                               RenderMode="Manner" Icon="{TemplateBinding HoverIcon}" IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="{TemplateBinding HoverIcon}"
+                                           HoverIcon="{TemplateBinding HoverIcon}"
+                                           PressedIcon="{TemplateBinding HoverIcon}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="Checked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"  RenderMode="Manner" Icon="{TemplateBinding Icon}"   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="{TemplateBinding DisabledIcon}"
+                                           HoverIcon="{TemplateBinding HoverIcon}" Visibility="Visible"
+                                           PressedIcon="{TemplateBinding PressedIcon}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Visible"></Setter>
+                            <Setter TargetName="Checked" Property="Visibility" Value="Collapsed"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.7"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Ay.QQ.likethis" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+                            <control:AyImageButton x:Name="Checked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"   RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin3.png"   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin1.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin3.png" Visibility="Collapsed"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin4.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="UnChecked"   Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"   Visibility="Visible"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin1.png" IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin1.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin2.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/xin2.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="Ay.QQ.geci" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+                            <control:AyImageButton x:Name="Checked"   Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"   RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/c1.png"   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/c3.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/c2.png" Visibility="Collapsed"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/c3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="UnChecked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"   Visibility="Visible"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/cc1.png" IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/cc3.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/cc2.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/cc3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Ay.QQ.add" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+
+                            <control:AyImageButton x:Name="UnChecked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"  Visibility="Visible"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/xiala1.png" IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/xiala1.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/xiala2.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/xiala2.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="Checked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"  RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/shangla1.png"   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/shangla1.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/shangla2.png" Visibility="Collapsed"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/shangla2.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Ay.QQ.YinXiao" TargetType="{x:Type RadioButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Width" Value="185"/>
+        <Setter Property="Height" Value="49"/>
+        <Setter Property="Foreground" Value="#919191"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="radioButtonBorder" Background="#00FFFFFF" Width="185" Height="47" VerticalAlignment="Center">
+                        </Border>
+                        <Border  Width="161" BorderThickness="0,0,0,1" Height="49" BorderBrush="#3D3F41" VerticalAlignment="Center" HorizontalAlignment="Center"></Border>
+                        <Border  Width="161" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0">
+                                <Image x:Name="selectPoint" Margin="0,0,10,0" Visibility="Hidden" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/currentselect.png" VerticalAlignment="Center" Stretch="Uniform" Width="16" Height="16"/>
+                                <ContentPresenter TextElement.FontSize="{TemplateBinding FontSize}" TextElement.Foreground="{TemplateBinding Foreground}" x:Name="contentPresenter" Focusable="False" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="radioButtonBorder" Value="#2A2B2D"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" TargetName="selectPoint" Value="Visible"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.2"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="Ay.QQ.YinXiaoEnd" TargetType="{x:Type RadioButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Width" Value="185"/>
+        <Setter Property="Height" Value="49"/>
+        <Setter Property="Foreground" Value="#919191"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="radioButtonBorder" Background="#00FFFFFF" Width="185" Height="47" VerticalAlignment="Center">
+                        </Border>
+
+                        <Border  Width="161" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0">
+                                <Image x:Name="selectPoint" Margin="0,0,10,0" Visibility="Hidden" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/currentselect.png" VerticalAlignment="Center" Stretch="Uniform" Width="16" Height="16"/>
+                                <ContentPresenter TextElement.FontSize="{TemplateBinding FontSize}" TextElement.Foreground="{TemplateBinding Foreground}" x:Name="contentPresenter" Focusable="False" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="radioButtonBorder" Value="#2A2B2D"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" TargetName="selectPoint" Value="Visible"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.2"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+    <Style x:Key="Ay.QQ.YinXiao2" TargetType="{x:Type RadioButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Width" Value="149"/>
+        <Setter Property="Height" Value="41"/>
+        <Setter Property="Foreground" Value="#919191"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="radioButtonBorder" Background="#00FFFFFF" Width="147" Height="39" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </Border>
+                        <Border  Width="125" BorderThickness="0,0,0,1" Height="41" BorderBrush="#3D3F41" VerticalAlignment="Center" HorizontalAlignment="Center"></Border>
+                        <Border  Width="125" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0">
+                                <Image x:Name="selectPoint" Margin="0,0,10,0" Visibility="Hidden" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/currentselect.png" VerticalAlignment="Center" Stretch="Uniform" Width="16" Height="16"/>
+                                <ContentPresenter TextElement.FontSize="{TemplateBinding FontSize}" TextElement.Foreground="{TemplateBinding Foreground}" x:Name="contentPresenter" Focusable="False" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="radioButtonBorder" Value="#2A2B2D"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" TargetName="selectPoint" Value="Visible"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.2"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="Ay.QQ.YinXiaoEnd2" TargetType="{x:Type RadioButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Width" Value="149"/>
+        <Setter Property="Height" Value="41"/>
+        <Setter Property="Foreground" Value="#919191"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="radioButtonBorder" Background="#00FFFFFF" HorizontalAlignment="Center" Width="147" Height="39" VerticalAlignment="Center">
+                        </Border>
+
+                        <Border  Width="125" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0">
+                                <Image x:Name="selectPoint" Margin="0,0,10,0" Visibility="Hidden" Source="pack://application:,,,/AYQQMusic;component/Contents/Images/rightmenu/currentselect.png" VerticalAlignment="Center" Stretch="Uniform" Width="16" Height="16"/>
+                                <ContentPresenter TextElement.FontSize="{TemplateBinding FontSize}" TextElement.Foreground="{TemplateBinding Foreground}" x:Name="contentPresenter" Focusable="False" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="radioButtonBorder" Value="#2A2B2D"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" TargetName="selectPoint" Value="Visible"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.2"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Ay.QQ.PlayList.Play" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+                            <control:AyImageButton x:Name="Checked"   Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
+                                                   RenderMode="Manner" 
+                                                   Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/pause2.png"   
+                                                   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/pause3.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/pause1.png" Visibility="Collapsed"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/pause3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="UnChecked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
+                                                   Visibility="Visible"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/play2.png" 
+                                                   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/play3.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/play1.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/play3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Ay.QQ.PlayList.ILike" TargetType="{x:Type control:AyImageToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:AyImageToggleButton}">
+
+                    <Border x:Name="border" Background="#00FFFFFF">
+                        <Grid>
+                            <control:AyImageButton x:Name="Checked"   Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
+                                                   RenderMode="Manner" 
+                                                   Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing3.png"   
+                                                   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing3.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing3.png" Visibility="Collapsed"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="false"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+                            <control:AyImageButton x:Name="UnChecked"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
+                                                   Visibility="Visible"
+                               RenderMode="Manner" Icon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing1.png" 
+                                                   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource TemplatedParent}}"
+                                           DisabledIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing1.png"
+                                           HoverIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing2.png"
+                                           PressedIcon="pack://application:,,,/AYQQMusic;component/Contents/Images/playlist/xing3.png">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton},Mode=FindAncestor}}" PropertyValue="true"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </control:AyImageButton>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Checked" Property="Visibility" Value="Visible"></Setter>
+                            <Setter TargetName="UnChecked" Property="Visibility" Value="Collapsed"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
